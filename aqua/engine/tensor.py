@@ -291,10 +291,10 @@ class Tensor:
         return Tensor._make(np.log(x), (self,), lambda g: (g / x,), "log")
 
     def relu(self) -> Tensor:
-        # Subgradient 0 at x == 0.
+        # Subgradient 0 at x == 0. np.maximum propagates NaN (np.where(x > 0, x, 0)
+        # would silently turn a NaN into 0 and hide a diverged weight).
         active = self.data > 0
-        return Tensor._make(np.where(active, self.data, 0.0).astype(self.dtype), (self,),
-                            lambda g: (g * active,), "relu")
+        return Tensor._make(np.maximum(self.data, 0), (self,), lambda g: (g * active,), "relu")
 
     def tanh(self) -> Tensor:
         out = np.tanh(self.data)
