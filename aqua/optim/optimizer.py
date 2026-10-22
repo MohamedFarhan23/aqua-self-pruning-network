@@ -51,17 +51,20 @@ class Optimizer:
                 continue
             if not st:
                 self._init_state(p, st)
-            active = p.mask if p.mask is not None else np.ones(p.shape, dtype=bool)
-            reset = ~active if dropped is None else ~active | dropped
-            for buf in st.values():
-                buf[reset] = 0
+            if dropped is not None and dropped.any():
+                for buf in st.values():
+                    buf[dropped] = 0
+            active = p.mask
             self._update(p, st, active)
-            # Invariant 1. The update is already zero on pruned entries; this
-            # line makes it a guarantee rather than a floating-point accident.
-            p.data[~active] = 0.0
+            if active is not None:
+                # Invariant 1. The update is already zero on pruned entries; this
+                # line makes it a guarantee rather than a floating-point accident.
+                p.data *= active
 
     def _init_state(self, p: Parameter, st: dict[str, np.ndarray]) -> None:
         raise NotImplementedError
 
-    def _update(self, p: Parameter, st: dict[str, np.ndarray], active: np.ndarray) -> None:
+    def _update(self, p: Parameter, st: dict[str, np.ndarray], active: np.ndarray | None) -> None:
+        """Apply one update. ``active`` is None for a dense parameter; otherwise
+        every state buffer must end the call at zero wherever ``active`` is False."""
         raise NotImplementedError

@@ -21,7 +21,11 @@ class SGD(Optimizer):
         st["velocity"] = np.zeros_like(p.data)
 
     def _update(self, p, st, active):
-        g = p.grad + self.weight_decay * p.data if self.weight_decay else p.grad
         v = st["velocity"]
-        v[...] = np.where(active, self.momentum * v + g, 0.0)
+        v *= self.momentum
+        v += p.grad
+        if self.weight_decay:
+            v += self.weight_decay * p.data
+        if active is not None:
+            v *= active
         p.data -= self.lr * v
