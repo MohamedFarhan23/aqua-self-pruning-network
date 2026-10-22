@@ -1,0 +1,175 @@
+{
+  "config": {
+    "epochs": 3,
+    "samples_per_layer": 600,
+    "subset": 10000,
+    "seed": 0
+  },
+  "base_loss": {
+    "train_subset": 0.04082524335359613,
+    "val": 0.09860255805333593
+  },
+  "num_weights": 1800,
+  "criteria": {
+    "magnitude/ema": {
+      "train_subset": {
+        "spearman": 0.14769277192163743,
+        "regret": 0.04261016011685546
+      },
+      "val": {
+        "spearman": 0.10710747338708027,
+        "regret": 0.08683973899154215
+      }
+    },
+    "taylor1/ema": {
+      "train_subset": {
+        "spearman": 0.15830385338596298,
+        "regret": 0.04287637474163716
+      },
+      "val": {
+        "spearman": 0.10016648564809229,
+        "regret": 0.08735005375055671
+      }
+    },
+    "taylor1/exact": {
+      "train_subset": {
+        "spearman": 0.1627237168900361,
+        "regret": 0.04067221210778927
+      },
+      "val": {
+        "spearman": 0.11431190770943654,
+        "regret": 0.08495765079877288
+      }
+    },
+    "taylor1/calib1k": {
+      "train_subset": {
+        "spearman": 0.17656327260183313,
+        "regret": 0.039943287183511623
+      },
+      "val": {
+        "spearman": 0.12152873092450545,
+        "regret": 0.08452576027028538
+      }
+    },
+    "taylor1/calib4k": {
+      "train_subset": {
+        "spearman": 0.16677023665748045,
+        "regret": 0.040859142019899326
+      },
+      "val": {
+        "spearman": 0.11362004124075348,
+        "regret": 0.08535889679496522
+      }
+    },
+    "taylor1/calib16k": {
+      "train_subset": {
+        "spearman": 0.15721459379051253,
+        "regret": 0.04177297646549475
+      },
+      "val": {
+        "spearman": 0.11078620291755235,
+        "regret": 0.08517089103939403
+      }
+    },
+    "obd/ema": {
+      "train_subset": {
+        "spearman": 0.18748681712556087,
+        "regret": 0.04025561845089606
+      },
+      "val": {
+        "spearman": 0.1255962342375209,
+        "regret": 0.08417042301168777
+      }
+    },
+    "obd/exact": {
+      "train_subset": {
+        "spearman": 0.18705098983055243,
+        "regret": 0.04029933653394436
+      },
+      "val": {
+        "spearman": 0.12137853952012537,
+        "regret": 0.0843721940179494
+      }
+    },
+    "obd/calib1k": {
+      "train_subset": {
+        "spearman": 0.1823083710828306,
+        "regret": 0.04031232817685984
+      },
+      "val": {
+        "spearman": 0.12033235812727104,
+        "regret": 0.08490558570801521
+      }
+    },
+    "obd/calib4k": {
+      "train_subset": {
+        "spearman": 0.18314168409722761,
+        "regret": 0.04023310021411591
+      },
+      "val": {
+        "spearman": 0.12108962173547996,
+        "regret": 0.08438962604690972
+      }
+    },
+    "obd/calib16k": {
+      "train_subset": {
+        "spearman": 0.18548390704235815,
+        "regret": 0.04034902912365978
+      },
+      "val": {
+        "spearman": 0.11878916217772496,
+        "regret": 0.08435343744480574
+      }
+    },
+    "taylor2/ema": {
+      "train_subset": {
+        "spearman": 0.060885203976914805,
+        "regret": 0.046934067656410665
+      },
+      "val": {
+        "spearman": 0.019045567606656672,
+        "regret": 0.09115784115328925
+      }
+    },
+    "taylor2/exact": {
+      "train_subset": {
+        "spearman": 0.94596313558533,
+        "regret": 0.0025755573105449986
+      },
+      "val": {
+        "spearman": 0.6619603606873541,
+        "regret": 0.02017627877769064
+      }
+    },
+    "taylor2/calib1k": {
+      "train_subset": {
+        "spearman": 0.4876439221123217,
+        "regret": 0.03099626540905736
+      },
+      "val": {
+        "spearman": 0.38649184974028283,
+        "regret": 0.06416290714922442
+      }
+    },
+    "taylor2/calib4k": {
+      "train_subset": {
+        "spearman": 0.6980513512504172,
+        "regret": 0.008717746187687128
+      },
+      "val": {
+        "spearman": 0.610285797413312,
+        "regret": 0.023237263545107203
+      }
+    },
+    "taylor2/calib16k": {
+      "train_subset": {
+        "spearman": 0.7847301393200019,
+        "regret": 0.0065949320811376985
+      },
+      "val": {
+        "spearman": 0.677873382059686,
+        "regret": 0.016658904080662923
+      }
+    }
+  }
+}
