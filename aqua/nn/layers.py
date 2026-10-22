@@ -31,7 +31,7 @@ from typing import Iterator
 
 import numpy as np
 
-from ..engine import Parameter, Tensor
+from ..engine import Parameter, Tensor, is_grad_enabled
 
 # Gain for a layer whose input is the output of this activation (see module docstring).
 GAINS = {"input": 1.0, "relu": 2.0, "gelu": 2.35, "tanh": 1.0}
@@ -65,16 +65,34 @@ class Module:
 
 
 class Linear(Module):
-    """y = x W + b, with W of shape (in, out). The weight enters through its mask."""
+    """y = x W + b, with W of shape (in, out). The weight enters through its mask.
+
+    With ``capture = True`` the layer keeps its last input x and, after
+    backward, the gradient of the loss w.r.t. its output, delta = dL/dy. Both
+    are (N, .) per-example matrices, which is what per-example gradient
+    statistics need (dL_n/dW = x_n^T delta_n), and the batch gradient alone
+    cannot recover.
+    """
 
     def __init__(self, in_features: int, out_features: int, rng: np.random.Generator,
                  gain: float = 2.0, dtype=np.float32, name: str = "linear"):
         std = np.sqrt(gain / in_features)
         self.weight = Parameter(rng.normal(0.0, std, (in_features, out_features)).astype(dtype), name=f"{name}.weight")
         self.bias = Parameter(np.zeros(out_features, dtype=dtype), name=f"{name}.bias")
+        self.capture = False
+        self.input: np.ndarray | None = None
+        self.output_grad: np.ndarray | None = None
 
     def forward(self, x: Tensor) -> Tensor:
-        return x @ self.weight.masked() + self.bias
+        y = x @ self.weight.masked() + self.bias
+        if not (self.capture and is_grad_enabled()):
+            return y
+        self.input, self.output_grad = x.data, None
+        return Tensor._make(y.data, (y,), self._record_output_grad, "capture")
+
+    def _record_output_grad(self, g: np.ndarray):
+        self.output_grad = g
+        return (g,)
 
 
 class Activation(Module):
